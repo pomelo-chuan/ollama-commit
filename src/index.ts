@@ -7,6 +7,11 @@ const { showLoadingIndicator, stopLoadingIndicator } = require("./misc");
 
 const diff = execSync("git diff --staged").toString();
 
+if (!diff) {
+  console.log("🤔 No changes to commit");
+  process.exit(0);
+}
+
 const loadingInterval = showLoadingIndicator("⭐️ Asking ollama");
 const timeStart = Date.now();
 
