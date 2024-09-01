@@ -44,7 +44,7 @@ export const askOllama = async (
         temperature: 0.8,
         num_predict: 100,
       },
-      model: "codegemma:latest",
+      model: "llama3.1",
       messages,
     })
     .then((data) => {
@@ -57,7 +57,7 @@ export const askOllama = async (
           },
         );
       }
-      return commit_message;
+      return commit_message.replace(/\n/g, " ");
     })
     .catch((error) => {
       throw error;
