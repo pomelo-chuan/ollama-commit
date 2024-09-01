@@ -38,13 +38,13 @@ export const askOllama = async (
     },
   ];
 
-  ollama
+  return ollama
     .chat({
       options: {
         temperature: 0.8,
         num_predict: 100,
       },
-      model: "llama3.1",
+      model: "codegemma:latest",
       messages,
     })
     .then((data) => {
@@ -57,7 +57,7 @@ export const askOllama = async (
           },
         );
       }
-      return data;
+      return commit_message;
     })
     .catch((error) => {
       throw error;
