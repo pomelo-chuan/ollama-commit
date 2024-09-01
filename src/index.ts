@@ -8,7 +8,7 @@ const { showLoadingIndicator, stopLoadingIndicator } = require("./misc");
 const diff = execSync("git diff --staged").toString();
 
 if (!diff) {
-  console.log("🤔 No changes to commit");
+  console.log("🤔 No changes to commit, please use `git add` to stage your changes before.");
   process.exit(0);
 }
 
