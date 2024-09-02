@@ -30,7 +30,7 @@ export const askOllama = async (
   const messages = [
     {
       role: "system",
-      content: defaultCommitPrompt,
+      content: process.env.prompt || defaultCommitPrompt,
     },
     {
       role: "user",
