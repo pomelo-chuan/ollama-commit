@@ -1,5 +1,5 @@
 {
-  "name": "ollama-commit",
+  "name": "@miaos/ollama-commit",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -20,5 +20,7 @@
     "prettier": "^3.3.3",
     "typescript": "^5.5.4"
   },
-  "bin": "./bin/index.js"
+  "bin": {
+    "ollama-commit": "./bin/index.js"
+  }
 }
