@@ -57,7 +57,7 @@ export const askOllama = async (
           },
         );
       }
-      return commit_message.replace(/\n/g, " ");
+      return commit_message.replace(/\n$/, "");
     })
     .catch((error) => {
       throw error;

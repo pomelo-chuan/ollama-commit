@@ -19,7 +19,7 @@ askOllama(diff, { useEmoji: false }).then((data) => {
   const timeEnd = Date.now();
   stopLoadingIndicator(
     loadingInterval,
-    `😄 Asking ollama finish in ${timeEnd - timeStart} ms`,
+    `😄 Asking ollama finish in ${(timeEnd - timeStart)/1000} s`,
   );
 
   console.log(data);
