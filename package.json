@@ -22,6 +22,7 @@
     "typescript": "^5.5.4"
   },
   "bin": {
-    "ollama-commit": "./bin/index.js"
+    "ollama-commit": "./bin/index.js",
+    "openai-commit": "use_gpt=true ./bin/index.js"
   }
 }

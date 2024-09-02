@@ -17,19 +17,19 @@ export const askOpenai = (
       content: `Here is the \`git diff\`: ${diff}`,
     },
   ];
-  const model = process.env.model || "gpt-4o-mini";
-  const token = process.env.token;
-  const host = process.env.host;
   const headers = {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${token}`,
-  };
-  const data = {
-    model,
-    messages,
+    Authorization: `Bearer ${process.env.openai_token}`,
   };
   return axios
-    .post(`${host}/v1/chat/completions`, data, { headers })
+    .post(
+      `${process.env.openai_host}/v1/chat/completions`,
+      {
+        model: process.env.openai__model || "gpt-4o-mini",
+        messages: messages,
+      },
+      { headers },
+    )
     .then((res) => {
       const commit_message = res?.data?.choices[0]?.message?.content;
       return processCommitMessage(commit_message, {

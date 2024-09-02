@@ -29,7 +29,7 @@ export const askOllama = async (
       messages,
     })
     .then((data) => {
-      let commit_message = data.message.content.replace(/["`]/g, "");
+      const commit_message = data.message.content;
 
       return processCommitMessage(commit_message, {
         useEmoji: option.useEmoji,

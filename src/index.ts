@@ -11,7 +11,6 @@ const { showLoadingIndicator, stopLoadingIndicator } = require("./misc");
 
 const diff = execSync("git diff --staged").toString();
 
-// 加载配置文件
 dotenv.config({ path: path.join(os.homedir(), ".ollama-commit") });
 
 if (!diff) {
@@ -21,10 +20,10 @@ if (!diff) {
   process.exit(0);
 }
 
-const loadingInterval = showLoadingIndicator("⭐️ Asking ollama");
+const loadingInterval = showLoadingIndicator(`⭐️ Asking ${process.env.use_gpt ? "openai" : "ollama"}`);
 const timeStart = Date.now();
 
-if (process.env.useGPT) {
+if (process.env.use_gpt) {
   askOpenai(diff).then((data) => {
     const timeEnd = Date.now();
     stopLoadingIndicator(
