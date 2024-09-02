@@ -19,3 +19,24 @@ export const stopLoadingIndicator = (
   readline.clearLine(process.stdout, 0);
   console.log(message);
 };
+
+export const processCommitMessage = (
+  commit_message: string,
+  option: {
+    useEmoji: boolean;
+    EMOJI_MAP: { [key: string]: string };
+  },
+) => {
+  let result = commit_message.replace(/["`]/g, "");
+
+  if (option.useEmoji) {
+    const emojiRegex = new RegExp(
+      `^(${Object.keys(option.EMOJI_MAP).join("|")}):`,
+    );
+    result = commit_message.replace(emojiRegex, (match, p1) => {
+      return `${option.EMOJI_MAP[p1]}:`;
+    });
+  }
+
+  return result.replace(/\n$/, "");
+};

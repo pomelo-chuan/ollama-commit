@@ -1,5 +1,7 @@
 const axios = require("axios");
 const { defaultCommitPrompt } = require("./config");
+const { processCommitMessage } = require("./misc");
+const { EMOJI_MAP } = require("./config");
 
 export const askOpenai = (
   diff: string,
@@ -17,7 +19,7 @@ export const askOpenai = (
   ];
   const model = process.env.model || "gpt-4o-mini";
   const token = process.env.token;
-  const url = process.env.url;
+  const host = process.env.host;
   const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -27,9 +29,13 @@ export const askOpenai = (
     messages,
   };
   return axios
-    .post(url, data, { headers })
+    .post(`${host}/v1/chat/completions`, data, { headers })
     .then((res) => {
-      return res?.data?.choices[0]?.message?.content;
+      const commit_message = res?.data?.choices[0]?.message?.content;
+      return processCommitMessage(commit_message, {
+        useEmoji: option.useEmoji,
+        EMOJI_MAP,
+      });
     })
     .catch((err) => {
       throw err;

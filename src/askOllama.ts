@@ -2,6 +2,7 @@ const { Ollama } = require("ollama");
 const { EMOJI_MAP } = require("./config");
 const { defaultCommitPrompt } = require("./config");
 const ollama = new Ollama({ host: "http://localhost:11434" });
+const { processCommitMessage } = require("./misc");
 
 export const askOllama = async (
   diff: string,
@@ -29,15 +30,11 @@ export const askOllama = async (
     })
     .then((data) => {
       let commit_message = data.message.content.replace(/["`]/g, "");
-      if (option.useEmoji) {
-        commit_message = commit_message.replace(
-          new RegExp(`^(${Object.keys(EMOJI_MAP).join("|")}):`),
-          (match, p1) => {
-            return `${EMOJI_MAP[p1]}:`;
-          },
-        );
-      }
-      return commit_message.replace(/\n$/, "");
+
+      return processCommitMessage(commit_message, {
+        useEmoji: option.useEmoji,
+        EMOJI_MAP,
+      });
     })
     .catch((error) => {
       throw error;
