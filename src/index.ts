@@ -6,6 +6,7 @@ const path = require("path");
 const os = require("os");
 const dotenv = require("dotenv");
 const { askOllama } = require("./askOllama");
+const { askOpenai } = require("./askOpenai");
 const { showLoadingIndicator, stopLoadingIndicator } = require("./misc");
 
 const diff = execSync("git diff --staged").toString();
@@ -23,27 +24,56 @@ if (!diff) {
 const loadingInterval = showLoadingIndicator("⭐️ Asking ollama");
 const timeStart = Date.now();
 
-askOllama(diff, { useEmoji: process.env.useEmoji === "true" }).then((data) => {
-  const timeEnd = Date.now();
-  stopLoadingIndicator(
-    loadingInterval,
-    `😄 Asking ollama finish in ${(timeEnd - timeStart) / 1000} s`,
-  );
+if (process.env.useGPT) {
+  askOpenai(diff).then((data) => {
+    const timeEnd = Date.now();
+    stopLoadingIndicator(
+      loadingInterval,
+      `😄 Asking openai finish in ${(timeEnd - timeStart) / 1000} s`,
+    );
 
-  console.log(data);
+    console.log(data);
 
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    rl.question(
+      "Do you want to use this as the git commit message? (y/n) ",
+      (answer) => {
+        if (answer.toLowerCase() === "y") {
+          execSync(`git commit -m "${data}"`, { stdio: "inherit" });
+        }
+        rl.close();
+      },
+    );
   });
+} else {
+  askOllama(diff, { useEmoji: process.env.useEmoji === "true" }).then(
+    (data) => {
+      const timeEnd = Date.now();
+      stopLoadingIndicator(
+        loadingInterval,
+        `😄 Asking ollama finish in ${(timeEnd - timeStart) / 1000} s`,
+      );
 
-  rl.question(
-    "Do you want to use this as the git commit message? (y/n) ",
-    (answer) => {
-      if (answer.toLowerCase() === "y") {
-        execSync(`git commit -m "${data}"`, { stdio: "inherit" });
-      }
-      rl.close();
+      console.log(data);
+
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      rl.question(
+        "Do you want to use this as the git commit message? (y/n) ",
+        (answer) => {
+          if (answer.toLowerCase() === "y") {
+            execSync(`git commit -m "${data}"`, { stdio: "inherit" });
+          }
+          rl.close();
+        },
+      );
     },
   );
-});
+}
