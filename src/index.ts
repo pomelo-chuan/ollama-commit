@@ -20,11 +20,15 @@ if (!diff) {
   process.exit(0);
 }
 
-const loadingInterval = showLoadingIndicator(`⭐️ Asking ${process.env.use_gpt ? "openai" : "ollama"}`);
+const loadingInterval = showLoadingIndicator(
+  `⭐️ Asking ${process.env.use_gpt ? "openai" : "ollama"}`,
+);
 const timeStart = Date.now();
 
 if (process.env.use_gpt) {
-  askOpenai(diff).then((data) => {
+  askOpenai(diff, {
+    useEmoji: process.env.useEmoji === "true",
+  }).then((data) => {
     const timeEnd = Date.now();
     stopLoadingIndicator(
       loadingInterval,
