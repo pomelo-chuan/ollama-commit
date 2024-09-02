@@ -1,5 +1,7 @@
 # ollama-commit
 
+use [ollama](https://ollama.com/) to generate commit message
+
 # before all
 
 1. install [ollama](https://ollama.com/) in your mac or pc.
@@ -27,3 +29,15 @@ npm i -g @miaos/ollama-commit
 3. run `ollama-commit` in the root of your project
 
 ![demo](./doc/demo.png)
+
+# api
+
+commit prefix with emoji
+
+```bash
+useEmoji=true ollama-commit
+```
+
+# commit style
+
+commit style follow [Semantic Commit Messages](https://gist.github.com/brianclements/841ea7bffdb01346392c) style.
