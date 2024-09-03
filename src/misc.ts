@@ -1,4 +1,4 @@
-import * as readline from "readline";
+const readline = require("readline");
 
 export const showLoadingIndicator = (text: string): NodeJS.Timeout => {
   const frames = ["-", "\\", "|", "/"];
