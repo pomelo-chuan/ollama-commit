@@ -38,6 +38,8 @@ export const askOpenai = (
       });
     })
     .catch((err) => {
-      throw err;
+      throw new Error(
+        "Failed to get commit message from OpenAI: " + err.message,
+      );
     });
 };

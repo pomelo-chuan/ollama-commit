@@ -28,33 +28,38 @@ const timeStart = Date.now();
 if (process.env.use_gpt) {
   askOpenai(diff, {
     useEmoji: process.env.useEmoji === "true",
-  }).then((data) => {
-    const timeEnd = Date.now();
-    stopLoadingIndicator(
-      loadingInterval,
-      `😄 Asking openai finish in ${(timeEnd - timeStart) / 1000} s`,
-    );
+  })
+    .then((data) => {
+      const timeEnd = Date.now();
+      stopLoadingIndicator(
+        loadingInterval,
+        `😄 Asking openai finish in ${(timeEnd - timeStart) / 1000} s`,
+      );
 
-    console.log(data);
+      console.log(data);
 
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      rl.question(
+        "Do you want to use this as the git commit message? (y/n) ",
+        (answer) => {
+          if (answer.toLowerCase() === "y") {
+            execSync(`git commit -m "${data}"`, { stdio: "inherit" });
+          }
+          rl.close();
+        },
+      );
+    })
+    .catch((error) => {
+      stopLoadingIndicator(loadingInterval, "😄 Asking openai failed");
+      console.error(error.message);
     });
-
-    rl.question(
-      "Do you want to use this as the git commit message? (y/n) ",
-      (answer) => {
-        if (answer.toLowerCase() === "y") {
-          execSync(`git commit -m "${data}"`, { stdio: "inherit" });
-        }
-        rl.close();
-      },
-    );
-  });
 } else {
-  askOllama(diff, { useEmoji: process.env.useEmoji === "true" }).then(
-    (data) => {
+  askOllama(diff, { useEmoji: process.env.useEmoji === "true" })
+    .then((data) => {
       const timeEnd = Date.now();
       stopLoadingIndicator(
         loadingInterval,
@@ -77,6 +82,9 @@ if (process.env.use_gpt) {
           rl.close();
         },
       );
-    },
-  );
+    })
+    .catch((error) => {
+      stopLoadingIndicator(loadingInterval, "😄 Asking ollama failed");
+      console.error(error.message);
+    });
 }
