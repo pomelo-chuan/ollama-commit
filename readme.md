@@ -13,8 +13,8 @@ ollama pull llama3.1:latest
 
 # feature
 
-- use `ollama` to generate commit message
-- no api key required, use local LLM model
+- 🐑 use `ollama` to generate commit message
+- 🐶 no api key required, use local LLM model
   
 # install
 

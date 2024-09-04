@@ -19,10 +19,12 @@ export const askOllama = async (
     },
   ];
 
+  console.log(messages);
+
   return ollama
     .chat({
       options: {
-        temperature: 0.8,
+        temperature: 0.2,
         num_predict: 100,
       },
       model: "llama3.1",

@@ -1,12 +1,12 @@
 const readline = require("readline");
 
 export const showLoadingIndicator = (text: string): NodeJS.Timeout => {
-  const frames = ["-", "\\", "|", "/"];
+  const frames = ["🌕", "🌖", "🌗", "🌘", "🌑", "🌒", "🌓", "🌔"];
   let i = 0;
 
   return setInterval(() => {
     readline.cursorTo(process.stdout, 0);
-    process.stdout.write(`${text} ${frames[i++ % frames.length]}`);
+    process.stdout.write(`${frames[i++ % frames.length]} ${text}`);
   }, 200);
 };
 
