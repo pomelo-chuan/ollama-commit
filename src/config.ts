@@ -28,4 +28,6 @@ export const defaultCommitPrompt = `You are an AI specialized in generating git 
 
 3. The commit message **must** be concise (under 50 characters) and **must not** include any additional symbols, explanations, or formatting.
 
+4. The output language should be in __LANGUAGE__.
+
 Your final output should look exactly like this: type: concise_commit_message.`;

@@ -11,7 +11,12 @@ export const askOllama = async (
   const messages = [
     {
       role: "system",
-      content: process.env.prompt || defaultCommitPrompt,
+      content:
+        process.env.prompt ||
+        defaultCommitPrompt.replace(
+          "__LANGUAGE__",
+          process.env.languagr || "English",
+        ),
     },
     {
       role: "user",
