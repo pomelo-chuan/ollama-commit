@@ -19,8 +19,6 @@ export const askOllama = async (
     },
   ];
 
-  console.log(messages);
-
   return ollama
     .chat({
       options: {
