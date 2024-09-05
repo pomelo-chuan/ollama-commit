@@ -6,7 +6,6 @@ const path = require("path");
 const os = require("os");
 const dotenv = require("dotenv");
 const picocolors = require("picocolors");
-const catsay = require("@miaos/catsay");
 const { askOllama } = require("./askOllama");
 const { showLoadingIndicator, stopLoadingIndicator } = require("./misc");
 
@@ -16,7 +15,9 @@ dotenv.config({ path: path.join(os.homedir(), ".ollama-commit") });
 
 if (!diff) {
   console.log(
-    "🤔 No changes to commit, please use `git add` to stage your changes before.",
+    picocolors.yellow(
+      "🤔 No changes to commit, please use `git add` to stage your changes before.",
+    ),
   );
   process.exit(0);
 }
@@ -28,7 +29,9 @@ const stagedFileLists = execSync("git diff --staged --name-only")
   .filter((item) => item);
 
 console.log("📄 Staged files:");
-console.log(stagedFileLists.join("\n"));
+console.log(
+  picocolors.cyan(stagedFileLists.map((it) => `  - ${it}`).join("\n")),
+);
 
 const loadingInterval = showLoadingIndicator(`Asking ollama...`);
 const timeStart = Date.now();
@@ -41,11 +44,8 @@ askOllama(diff, { useEmoji: process.env.useEmoji === "true" })
       `😄 Asking ollama finish in ${(timeEnd - timeStart) / 1000} s`,
     );
 
-    console.log(
-      catsay.say(picocolors.green(data), {
-        cat: "miao",
-      }),
-    );
+    console.log(picocolors.green("✔") + " generated commit message: ");
+    console.log(picocolors.green(data));
 
     const rl = readline.createInterface({
       input: process.stdin,

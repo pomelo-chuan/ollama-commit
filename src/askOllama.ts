@@ -15,7 +15,7 @@ export const askOllama = async (
         process.env.prompt ||
         defaultCommitPrompt.replace(
           "__LANGUAGE__",
-          process.env.languagr || "English",
+          process.env.language || "English",
         ),
     },
     {

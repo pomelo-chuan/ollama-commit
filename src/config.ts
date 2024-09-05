@@ -23,11 +23,8 @@ export const defaultCommitPrompt = `You are an AI specialized in generating git 
    - revert: Reverting a previous commit.
    - style: Code style changes.
    - test: Adding or updating tests.
-
 2. The output **must** be a single commit message in the exact format: {type}: {commit_message}.
-
 3. The commit message **must** be concise (under 50 characters) and **must not** include any additional symbols, explanations, or formatting.
-
 4. The output language should be in __LANGUAGE__.
 
-Your final output should look exactly like this: type: concise_commit_message.`;
+Your final output should look exactly like this: {type}: {commit_message}.`;
