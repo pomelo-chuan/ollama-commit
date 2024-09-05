@@ -1,6 +1,5 @@
 const { Ollama } = require("ollama");
 const { EMOJI_MAP } = require("./config");
-const { defaultCommitPrompt } = require("./config");
 const ollama = new Ollama({ host: "http://localhost:11434" });
 const { processCommitMessage } = require("./misc");
 
