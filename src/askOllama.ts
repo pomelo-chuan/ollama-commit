@@ -23,14 +23,14 @@ export const askOllama = async (
       content: `Here is the \`git diff\`: ${diff}`,
     },
   ];
-
+  
   return ollama
     .chat({
       options: {
         temperature: 0.2,
         num_predict: 100,
       },
-      model: "llama3.1",
+      model: process.env.model || "llama3.1",
       messages,
     })
     .then((data) => {
