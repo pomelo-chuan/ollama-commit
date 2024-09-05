@@ -5,6 +5,8 @@ const readline = require("readline");
 const path = require("path");
 const os = require("os");
 const dotenv = require("dotenv");
+const picocolors = require("picocolors");
+const catsay = require("@miaos/catsay");
 const { askOllama } = require("./askOllama");
 const { showLoadingIndicator, stopLoadingIndicator } = require("./misc");
 
@@ -19,12 +21,16 @@ if (!diff) {
   process.exit(0);
 }
 
-// 获取提交了的文件列表
-const files = execSync("git diff --staged --name-only").toString().split("\n");
+const stagedFileLists = execSync("git diff --staged --name-only")
+  .toString()
+  .split("\n")
+  .map((item) => item.trim())
+  .filter((item) => item);
 
-const loadingInterval = showLoadingIndicator(
-  `Asking ollama...`,
-);
+console.log("📄 Staged files:");
+console.log(stagedFileLists.join("\n"));
+
+const loadingInterval = showLoadingIndicator(`Asking ollama...`);
 const timeStart = Date.now();
 
 askOllama(diff, { useEmoji: process.env.useEmoji === "true" })
@@ -35,7 +41,11 @@ askOllama(diff, { useEmoji: process.env.useEmoji === "true" })
       `😄 Asking ollama finish in ${(timeEnd - timeStart) / 1000} s`,
     );
 
-    console.log(data);
+    console.log(
+      catsay.say(picocolors.green(data), {
+        cat: "miao",
+      }),
+    );
 
     const rl = readline.createInterface({
       input: process.stdin,
