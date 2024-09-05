@@ -28,8 +28,6 @@ npm i -g @miaos/ollama-commit
 2. use `git add` to add some changes
 3. run `ollama-commit` in the root of your project
 
-![demo](./doc/demo.png)
-
 ## api
 
 ### useEmoji
