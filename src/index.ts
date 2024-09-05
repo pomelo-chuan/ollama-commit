@@ -45,7 +45,7 @@ askOllama(diff, { useEmoji: process.env.useEmoji === "true" })
     );
 
     console.log(picocolors.green("✔") + " generated commit message: ");
-    console.log(picocolors.green(data));
+    console.log("   " + picocolors.green(data));
 
     const rl = readline.createInterface({
       input: process.stdin,
