@@ -27,5 +27,4 @@ export const defaultCommitPrompt = `You are a professional developer, highly ski
 3. The commit message **must** be under 50 characters, concise, and clear.
 4. Do not include any explanations, symbols, or additional text.
 5. Output in __LANGUAGE__.
-
 `;

@@ -6,24 +6,19 @@ const { processCommitMessage } = require("./misc");
 
 export const askOllama = async (
   diff: string,
-  option: { useEmoji?: boolean } = {},
+  option: { useEmoji?: boolean; prompt?: string } = {},
 ) => {
   const messages = [
     {
       role: "system",
-      content:
-        process.env.prompt ||
-        defaultCommitPrompt.replace(
-          "__LANGUAGE__",
-          process.env.language || "English",
-        ),
+      content: option.prompt,
     },
     {
       role: "user",
       content: `Here is the \`git diff\`: ${diff}`,
     },
   ];
-  
+
   return ollama
     .chat({
       options: {

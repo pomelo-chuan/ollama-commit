@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+import { defaultCommitPrompt } from "./config";
+
 const { execSync } = require("child_process");
 const readline = require("readline");
 const path = require("path");
@@ -30,13 +32,21 @@ const stagedFileLists = execSync("git diff --staged --name-only")
 
 console.log("📄 Staged files:");
 console.log(
-  picocolors.cyan(stagedFileLists.map((it) => `\u00A0\u00A0-\u00A0${it}`).join("\n")),
+  picocolors.cyan(
+    stagedFileLists.map((it) => `\u00A0\u00A0-\u00A0${it}`).join("\n"),
+  ),
 );
 
 const loadingInterval = showLoadingIndicator(`Asking ollama...`);
 const timeStart = Date.now();
 
-askOllama(diff, { useEmoji: process.env.useEmoji === "true" })
+askOllama(diff, {
+  useEmoji: process.env.useEmoji === "true",
+  prompt: (process.env.prompt || defaultCommitPrompt).replace(
+    "__LANGUAGE__",
+    process.env.language || "English",
+  ),
+})
   .then((data) => {
     const timeEnd = Date.now();
     stopLoadingIndicator(
