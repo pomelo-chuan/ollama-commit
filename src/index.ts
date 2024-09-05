@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import { defaultCommitPrompt } from "./config";
-
 const { execSync } = require("child_process");
 const readline = require("readline");
 const path = require("path");
@@ -10,7 +8,7 @@ const dotenv = require("dotenv");
 const picocolors = require("picocolors");
 const { askOllama } = require("./askOllama");
 const { showLoadingIndicator, stopLoadingIndicator } = require("./misc");
-
+const { defaultCommitPrompt } = require("./config");
 const diff = execSync("git diff --staged").toString();
 
 dotenv.config({ path: path.join(os.homedir(), ".ollama-commit") });
