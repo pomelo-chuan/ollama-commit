@@ -6,7 +6,22 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
-  "keywords": [],
+  "keywords": [
+    "ai",
+    "ollama",
+    "commit",
+    "conventional",
+    "aicommit",
+    "ollamacommit",
+    "commitizen",
+    "chatgpt",
+    "gpt3",
+    "gpt4",
+    "git",
+    "gemini",
+    "openai",
+    "llm"
+  ],
   "author": "",
   "license": "ISC",
   "description": "",
