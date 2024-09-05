@@ -2,7 +2,7 @@
 
 use [ollama](https://ollama.com/) to generate commit message
 
-# before all
+## before all
 
 1. install [ollama](https://ollama.com/) in your mac or pc.
 2. pull [llama3.1](https://ollama.com/library/llama3.1) first:
@@ -11,18 +11,18 @@ use [ollama](https://ollama.com/) to generate commit message
 ollama pull llama3.1:latest
 ```
 
-# feature
+## feature
 
 - 🐑 use `ollama` to generate commit message
 - 🐶 no api key required, use local LLM model
   
-# install
+## install
 
 ```bash
 npm i -g @miaos/ollama-commit
 ```
 
-# usage
+## usage
 
 1. edit some files in your project
 2. use `git add` to add some changes
@@ -30,7 +30,9 @@ npm i -g @miaos/ollama-commit
 
 ![demo](./doc/demo.png)
 
-# api
+## api
+
+### useEmoji
 
 commit prefix with emoji
 
@@ -38,6 +40,14 @@ commit prefix with emoji
 useEmoji=true ollama-commit
 ```
 
-# commit style
+### model
+
+use custom model
+
+```bash
+model=llama3.1 ollama-commit
+```
+
+## commit style
 
 commit style follow [Semantic Commit Messages](https://gist.github.com/brianclements/841ea7bffdb01346392c) style.

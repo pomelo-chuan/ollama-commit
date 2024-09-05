@@ -19,6 +19,9 @@ if (!diff) {
   process.exit(0);
 }
 
+// 获取提交了的文件列表
+const files = execSync("git diff --staged --name-only").toString().split("\n");
+
 const loadingInterval = showLoadingIndicator(
   `Asking ollama...`,
 );
