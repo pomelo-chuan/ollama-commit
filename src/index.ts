@@ -30,7 +30,7 @@ const stagedFileLists = execSync("git diff --staged --name-only")
 
 console.log("📄 Staged files:");
 console.log(
-  picocolors.cyan(stagedFileLists.map((it) => `  - ${it}`).join("\n")),
+  picocolors.cyan(stagedFileLists.map((it) => `\u00A0\u00A0-\u00A0${it}`).join("\n")),
 );
 
 const loadingInterval = showLoadingIndicator(`Asking ollama...`);
@@ -45,7 +45,7 @@ askOllama(diff, { useEmoji: process.env.useEmoji === "true" })
     );
 
     console.log(picocolors.green("✔") + " generated commit message: ");
-    console.log("   " + picocolors.green(data));
+    console.log("\u00A0\u00A0" + picocolors.green(data));
 
     const rl = readline.createInterface({
       input: process.stdin,
