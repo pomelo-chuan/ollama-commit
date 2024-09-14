@@ -7,6 +7,9 @@ export const EMOJI_MAP: { [key: string]: string } = {
   test: "✅",
   chore: "🔧",
   revert: "⏪",
+  build: "🛠️",
+  ci: "⚙️",
+  perf: "🚀",
 };
 
 export const defaultCommitPrompt = `You are a professional developer, highly skilled in writing git commit messages. Your task is to generate a concise and clear commit message based on the provided changes. Follow these strict rules:

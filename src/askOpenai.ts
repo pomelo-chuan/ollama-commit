@@ -1,5 +1,4 @@
 const axios = require("axios");
-const { defaultCommitPrompt } = require("./config");
 const { processCommitMessage } = require("./misc");
 const { EMOJI_MAP } = require("./config");
 
