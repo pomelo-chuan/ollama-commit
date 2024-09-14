@@ -5,12 +5,12 @@ const { EMOJI_MAP } = require("./config");
 
 export const askOpenai = (
   diff: string,
-  option: { useEmoji?: boolean } = {},
+  option: { useEmoji?: boolean; prompt?: string } = {},
 ) => {
   const messages = [
     {
       role: "system",
-      content: process.env.prompt || defaultCommitPrompt,
+      content: option.prompt,
     },
     {
       role: "user",
