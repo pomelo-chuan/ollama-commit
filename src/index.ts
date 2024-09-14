@@ -7,6 +7,7 @@ const os = require("os");
 const dotenv = require("dotenv");
 const picocolors = require("picocolors");
 const { askOllama } = require("./askOllama");
+const { askOpenai } = require("./askOpenai");
 const { showLoadingIndicator, stopLoadingIndicator } = require("./misc");
 const { defaultCommitPrompt } = require("./config");
 const diff = execSync("git diff --staged").toString();
@@ -35,42 +36,79 @@ console.log(
   ),
 );
 
-const loadingInterval = showLoadingIndicator(`Asking ollama...`);
+const loadingInterval = showLoadingIndicator(
+  `Asking ${process.env.useOpenai === "true" ? "openai" : "ollama"}...`,
+);
 const timeStart = Date.now();
 
-askOllama(diff, {
-  useEmoji: process.env.useEmoji === "true",
-  prompt: (process.env.prompt || defaultCommitPrompt).replace(
-    "__LANGUAGE__",
-    process.env.language || "English",
-  ),
-})
-  .then((data) => {
-    const timeEnd = Date.now();
-    stopLoadingIndicator(
-      loadingInterval,
-      `😄 Asking ollama finish in ${(timeEnd - timeStart) / 1000} s`,
-    );
-
-    console.log(picocolors.green("✔") + " generated commit message: ");
-    console.log("\u00A0\u00A0" + picocolors.green(data));
-
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
-
-    rl.question(
-      "Do you want to use this as the git commit message? (y/n) ",
-      (answer) => {
-        if (answer.toLowerCase() === "y") {
-          execSync(`git commit -m "${data}"`, { stdio: "inherit" });
-        }
-        rl.close();
-      },
-    );
+if (process.env.useOpenai === "true") {
+  askOpenai(diff, {
+    useEmoji: process.env.useEmoji === "true",
   })
-  .catch((error) => {
-    stopLoadingIndicator(loadingInterval, "😅 Asking ollama failed");
-    console.error(error.message);
-  });
+    .then((data) => {
+      const timeEnd = Date.now();
+      stopLoadingIndicator(
+        loadingInterval,
+        `😄 Asking openai finish in ${(timeEnd - timeStart) / 1000} s`,
+      );
+
+      console.log(picocolors.green("✔") + " generated commit message: ");
+      console.log("\u00A0\u00A0" + picocolors.green(data));
+
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      rl.question(
+        "Do you want to use this as the git commit message? (y/n) ",
+        (answer) => {
+          if (answer.toLowerCase() === "y") {
+            execSync(`git commit -m "${data}"`, { stdio: "inherit" });
+          }
+          rl.close();
+        },
+      );
+    })
+    .catch((error) => {
+      stopLoadingIndicator(loadingInterval, "😄 Asking openai failed");
+      console.error(error.message);
+    });
+} else {
+  askOllama(diff, {
+    useEmoji: process.env.useEmoji === "true",
+    prompt: (process.env.prompt || defaultCommitPrompt).replace(
+      "__LANGUAGE__",
+      process.env.language || "English",
+    ),
+  })
+    .then((data) => {
+      const timeEnd = Date.now();
+      stopLoadingIndicator(
+        loadingInterval,
+        `😄 Asking ollama finish in ${(timeEnd - timeStart) / 1000} s`,
+      );
+
+      console.log(picocolors.green("✔") + " generated commit message: ");
+      console.log("\u00A0\u00A0" + picocolors.green(data));
+
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      rl.question(
+        "Do you want to use this as the git commit message? (y/n) ",
+        (answer) => {
+          if (answer.toLowerCase() === "y") {
+            execSync(`git commit -m "${data}"`, { stdio: "inherit" });
+          }
+          rl.close();
+        },
+      );
+    })
+    .catch((error) => {
+      stopLoadingIndicator(loadingInterval, "😅 Asking ollama failed");
+      console.error(error.message);
+    });
+}
