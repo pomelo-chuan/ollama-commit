@@ -24,7 +24,7 @@ export const askOllama = async (
         temperature: 0.2,
         num_predict: 100,
       },
-      model: process.env.model || "llama3.1",
+      model: process.env.model || "llama3.2",
       messages,
     })
     .then((data) => {
