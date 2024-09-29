@@ -5,10 +5,10 @@ use [ollama](https://ollama.com/) to generate commit message
 ## Before all
 
 1. install [ollama](https://ollama.com/) in your mac or pc.
-2. pull [llama3.1](https://ollama.com/library/llama3.1) first:
+2. pull [llama3.2](https://ollama.com/library/llama3.2) first:
 
 ```bash
-ollama pull llama3.1:latest
+ollama pull llama3.2:latest
 ```
 
 ## Feature
@@ -43,7 +43,7 @@ useEmoji=true ollama-commit
 use custom model
 
 ```bash
-model=llama3.1 ollama-commit
+model=llama3.2 ollama-commit
 ```
 
 ## Commit style
